@@ -1,0 +1,157 @@
+@startuml
+
+protocol Taggable{}
+protocol Disableable {}
+protocol Hidable {}
+protocol BaseRowType {}
+protocol TypedRowType {}
+protocol RowType {}
+class BaseRow {}
+
+protocol KeyboardReturnHandler {}
+
+Taggable <|-- Disableable
+Taggable <|-- Hidable
+Taggable <|-- BaseRowType
+BaseRowType <|-- KeyboardReturnHandler
+BaseRowType <|-- TypedRowType
+TypedRowType <|-- RowType
+BaseRowType <|.. BaseRow
+Hidable <|.. BaseRow
+Disableable <|.. BaseRow
+
+
+protocol BaseCellType {}
+protocol TypedCellType {}
+protocol CellType {}
+
+BaseCellType <|-- TypedCellType
+TypedCellType <|-- CellType
+
+
+class UITableViewCell{}
+class BaseCell{}
+
+UITableViewCell <|-- BaseCell
+BaseCellType <|.. BaseCell
+
+class Cell<T: Equatable>{}
+
+BaseCell <|-- Cell
+TypedCellType <|.. Cell
+
+struct CellProvider<Cell: BaseCell, CellType> {}
+CellProvider *- BaseCell
+CellProvider *- CellType
+
+enum ControllerProvider{}
+enum PresentationMode{}
+enum ConditionType{}
+enum Condition{}
+
+protocol FormatterProtocol{}
+protocol FormViewControllerProtocol{}
+struct RowNavigationOptions{}
+struct KeyboardReturnTypeConfiguration{}
+struct InlineRowHideOptions{}
+
+class FormViewController{}
+class UIViewController{}
+
+protocol FormDelegate{}
+
+class Form{}
+
+Form o-- FormDelegate
+
+struct HeaderFooterView{
+    .. 生成Header/footer ..
+}
+
+protocol HeaderFooterViewRepresentable{
+     .. used to set headers and footers to sections ..
+}
+
+HeaderFooterViewRepresentable <|.. HeaderFooterView
+
+protocol BaseInlineRowType {}
+protocol InlineRowType {}
+
+TypedRowType <|-- InlineRowType
+BaseInlineRowType <|-- InlineRowType
+
+protocol NavigationAccessory{}
+
+class NavigationAccessoryView{}
+class UIToolbar{}
+
+UIToolbar <|-- NavigationAccessoryView
+NavigationAccessory <|.. NavigationAccessoryView
+
+protocol PresenterRowType{}
+note top: row that displays a new view controller
+
+TypedRowType <|-- PresenterRowType
+
+
+
+class RowOf<T: Equatable>{}
+
+BaseRow <|-- RowOf
+
+class Row<Cell: CellType, BaseCell>{}
+Row *- BaseCell
+Row *- CellType
+
+RowOf <|-- Row
+TypedRowType <|.. Row
+
+protocol RowControllerType{}
+protocol TypedRowControllerType{}
+protocol HeaderFooterViewRepresentable{}
+
+RowControllerType <|-- TypedRowControllerType
+
+protocol SelectableRowType{}
+RowType <|-- SelectableRowType
+
+
+protocol SectionDelegate {}
+class Section
+
+struct MultivaluedOptions
+class BaseMultivaluedSection
+class GenericMultivaluedSection<AddButtonType: RowType>
+GenericMultivaluedSection *- BaseRow
+
+class MultivaluedSection
+
+
+Hidable <|.. Section
+SectionDelegate <|.. Section
+Section <|-- BaseMultivaluedSection
+BaseMultivaluedSection <|-- GenericMultivaluedSection
+GenericMultivaluedSection <|-- MultivaluedSection
+
+enum SelectionType
+protocol SelectableSectionType
+class SelectableSection<Row: SelectableRowType, BaseRow>
+SelectableSection *- SelectableRowType
+SelectableSection *- BaseRow
+
+Section <|-- SelectableSection
+
+class SwipeAction
+protocol ContextualAction
+struct SwipeConfiguration
+
+ContextualAction <|.. SwipeAction
+
+protocol BaseRuleType
+protocol RuleType
+struct ValidationOptions
+
+BaseRuleType <|-- RuleType
+
+
+@enduml
