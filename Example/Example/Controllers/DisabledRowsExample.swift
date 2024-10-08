@@ -19,11 +19,17 @@ class DisabledRowsExample : FormViewController {
                 $0.options = ["Enabled", "Disabled"]
                 $0.value = "Disabled"
             }
+            .onCellSelection({ cell, row in
+                print("======")
+            })
 
             <<< TextRow(){
                 $0.title = "choose enabled, disable above..."
                 $0.disabled = "$segments = 'Disabled'"
             }
+            .onCellSelection({ cell, row in
+                print("======")
+            })
 
             <<< SwitchRow("Disable Next Section?"){
                 $0.title = $0.tag
